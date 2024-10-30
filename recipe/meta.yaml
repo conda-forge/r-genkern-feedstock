@@ -1,6 +1,5 @@
 {% set version = '1.2-60' %}
 {% set posix = 'm2-' if win else '' %}
-{% set native = 'm2w64-' if win else '' %}
 
 package:
   name: r-genkern
@@ -13,8 +12,7 @@ source:
   sha256: cc74225fe6a092b4b98bebcc42b5ce5632dd492cc2368b4e8087fed87c6a158b
 
 build:
-  merge_build_host: True  # [win]
-  number: 1007
+  number: 1008
   rpaths:
     - lib/R/lib/
     - lib/
@@ -22,7 +20,9 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}              # [not win]
+    - {{ stdlib("c") }}                # [not win]
     - {{ compiler('m2w64_c') }}        # [win]
+    - {{ stdlib("m2w64_c") }}          # [win]
     - {{ posix }}filesystem        # [win]
     - {{ posix }}make
     - {{ posix }}sed               # [win]
@@ -34,7 +34,6 @@ requirements:
     - r-kernsmooth
   run:
     - r-base
-    - {{ native }}gcc-libs         # [win]
     - r-kernsmooth
 
 test:
